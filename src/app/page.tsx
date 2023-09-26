@@ -1,5 +1,4 @@
 'use client';
-import PlayRandomMoveEngine from './chessRandom'
 import PlayVsComputer from './chessStockfish';
 
 export default function Home() {

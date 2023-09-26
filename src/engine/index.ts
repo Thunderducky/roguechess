@@ -1,6 +1,8 @@
 'use client'
-// const { Worker } = require("node:worker_threads");
-const stockfish = new Worker("./stockfish.wasm.js");
+
+import { isWindowSafe } from "@/app/chessRandom";
+
+const stockfish =  isWindowSafe() ? new Worker("./stockfish.wasm.js") : null as any;
 
 type EngineMessage = {
   /** stockfish engine message in UCI format*/

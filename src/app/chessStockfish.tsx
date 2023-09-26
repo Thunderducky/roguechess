@@ -1,4 +1,5 @@
-import { useMemo, useState } from "react";
+'use client';
+import { useEffect, useMemo, useState } from "react";
 import Chess from "chess.js";
 import { Chessboard } from "react-chessboard";
 import { limitedWhite, startingBoard } from "./starts";
@@ -28,7 +29,10 @@ export default function PlayVsComputer() {
     "Medium 🧐": 8,
     "Hard 😵": 18,
   };
-  const engine = useMemo(() => new Engine(), []);
+  const [engine, setEngine] = useState<Engine>();
+  useEffect(() => {
+    setEngine(new Engine());
+  }, [])
   const game = useMemo(
     () => new Chess(getFenFromQueryString() || startingBoard),
     []
@@ -38,6 +42,7 @@ export default function PlayVsComputer() {
   const [stockfishLevel, setStockfishLevel] = useState(2);
 
   function findBestMove() {
+    if(!engine){ return; }
     engine.evaluatePosition(game.fen(), stockfishLevel);
 
     engine.onMessage(({ bestMove }) => {
